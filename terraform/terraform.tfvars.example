@@ -1,0 +1,30 @@
+# terraform.tfvars.example - Example configuration for DistilBERT training
+
+# Environment Configuration
+environment = "prod"
+aws_region  = "us-east-1"
+
+# Training Instance Configuration (ml.p3.8xlarge recommended)
+training_instance_type  = "ml.p3.8xlarge"  # 4x V100 GPUs
+training_instance_count = 1
+use_spot_instances     = true  # Save 70% on costs
+
+# Hyperparameters from DistilBERT paper
+training_hyperparameters = {
+  teacher_model               = "bert-base-uncased"
+  batch_size                 = "32"
+  gradient_accumulation_steps = "32"  # Effective batch = 4096
+  num_epochs                 = "3"
+  learning_rate              = "5e-4"
+  temperature                = "3.0"
+  alpha                      = "0.5"
+  beta                       = "2.0"
+  gamma                      = "1.0"
+  mlm_probability           = "0.15"
+  max_length                = "512"
+  use_demo_data             = "false"
+}
+
+# Cost Alerts
+cost_alert_threshold = 2000  # Alert at $2000
+alarm_sns_topic_arn = "arn:aws:sns:us-east-1:123456789012:distilbert-alerts"
