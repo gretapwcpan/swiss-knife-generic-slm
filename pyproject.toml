@@ -1,0 +1,88 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swiss-knife-generic-slm"
+version = "0.1.0"
+description = "A toolkit for reducing large language models to smaller language models"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "greta", email = "greta@example.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "datasets>=2.14.0",
+    "accelerate>=0.20.0",
+    "peft>=0.4.0",
+    "bitsandbytes>=0.41.0",
+    "optimum>=1.12.0",
+    "scikit-learn>=1.3.0",
+    "numpy>=1.21.0",
+    "tqdm>=4.65.0",
+    "click>=8.0.0",
+    "wandb>=0.15.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.3.0",
+]
+onnx = [
+    "onnx>=1.14.0",
+    "onnxruntime>=1.15.0",
+]
+tensorrt = [
+    "tensorrt>=8.6.0",
+]
+
+[project.scripts]
+swiss-knife = "swiss_knife.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=swiss_knife --cov-report=term-missing"
